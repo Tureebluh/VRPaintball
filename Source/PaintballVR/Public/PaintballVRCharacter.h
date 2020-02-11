@@ -31,6 +31,8 @@ public:
 		float BaseLookUpRate;
 
 protected:
+	/** Aligning the collision with the VR Camera. */
+	void PlayspaceOffset();
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
@@ -62,6 +64,10 @@ protected:
 protected:
 	// Called when the game starts or the actor spawns
 	virtual void BeginPlay() override;
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+	
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface

@@ -53,9 +53,26 @@ void APaintballVRCharacter::BeginPlay()
 		VRRoot->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("head"));
 		VRRoot->SetRelativeRotation(FRotator(0.0f, 90.0f, -90.0f));
 		VRCamera->AttachToComponent(VRRoot, FAttachmentTransformRules::KeepRelativeTransform);
-		
 	}
 }
+
+// Called every frame and passes the change in time since the last frame
+void APaintballVRCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	PlayspaceOffset();
+}
+
+// Adjust the world and player root offset to accomodate for playspace movement
+void APaintballVRCharacter::PlayspaceOffset()
+{
+	FVector CameraOffset = VRCamera->GetComponentLocation() - GetActorLocation();
+	CameraOffset.Z = 0;
+	AddActorWorldOffset(CameraOffset);
+	VRRoot->AddWorldOffset(-(CameraOffset));
+}
+
+
 
 void APaintballVRCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
